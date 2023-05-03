@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-show</title>
+    <style>
+        #app {
+            border: black dashed 1px;
+            width: 900px;
+            padding: 0 20px 20px 20px;
+        }
+
+        #app div {
+            padding: 20px;
+            background-color: lightgreen;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>Use the 'showDiv' data property in the code, change it to 'false', and run the code again.</p>
+        <div v-show="showDiv">This div tag can be hidden</div>
+        <div>
+            <p>The difference between v-show and v-if is that v-if creates (renders) the element depending on the
+                condition, but with v-show the element is already created, v-show only changes its visibility.Therefore,
+                it is better to use v-show when switching visibility of an object, because it is easier for the browser
+                to do, and it can lead to a faster response and better user experience.
+
+                A reason for using v-if over v-show is that v-if can be used with v-else-if and v-else.
+
+                In the example below v-show and v-if are used separately on two different div elements, but based on the
+                same Vue property. You can open the example and inspect the code to see that v-show keeps the div
+                element, and only sets the CSS display property to 'none', but v-if actually destroys the div element.
+            </p>
+            <div v-show="showDiv">Div tag with v-show</div>
+            <div v-if="showDiv">Div tag with v-if</div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    showDiv: true
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+
+</html>
