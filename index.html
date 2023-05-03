@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W3 Schools Vue Tutorial</title>
+    <style>
+        #app {
+            border: dashed black 1px;
+            /* width: 250px; */
+            padding: 0 10px 10px 10px;
+        }
+
+        #app div {
+            margin-bottom: 20px;
+        }
+
+        img {
+            width: 50%;
+        }
+
+        .pinkBG {
+            background-color: hotpink;
+        }
+
+        .impClass {
+            background-color: #de5246;
+        }
+
+        .myClass {
+            background-color: black;
+            color: whitesmoke
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div v-bind:class="vueClass">
+            {{ message }} <br>
+            {{'Random Number: ' + Math.ceil(Math.random()*6) }}
+        </div>
+        <div v-bind:style="{fontSize: size }">This is not pink - but has big font</div>
+        <!-- The could also have been written as { fontSize: size + 'px' } withe value for size as only 28. This would be better imo when programmatically assigning the value -->
+        <div v-bind:style="{backgroundColor: 'hsl('+bgVal + ',80%,80%) '}">The background-color of this div is set using
+            HSL and the H value is bound to the gbVal of the Vue instance. I also calculated the bgVal using a function
+            that returns a random value between 0-360 </div>
+        <div v-bind:style="{ backgroundColor: isImportant ? 'lightcoral' : 'lightgray' }">Background Color based on
+            importance. isImportant boolean determines the bg-color</div>
+        <div v-bind:class="className">
+            Importance visualized by background color
+        </div>
+        <div v-bind:class="{ myClass: true}">Here is an interesting approach. Setting the myClass value to "true"
+            changes the background color (since the class name IS applied) and we leave the Vue instance empty </div>
+        <div v-bind:class="{ myClass: !isImportant }">Yet another option - we give the element the class of myClass ONLY
+            when the value of isImportant is not set to true. Could be useful when applying to several elements at once.
+            Also note I add the ! so it would show up based on what I did with the previous example of using isImportant
+        </div>
+        <div :class="{ impClass: isImportant }">This example shows the shorthand for v-bind: which is simply :</div>
+        <img v-bind:src="url">
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    message: "Hello World!",
+                    vueClass: "pinkBG",
+                    url: "https://www.w3schools.com/vue/img_beach3.jpg",
+                    size: '28px',
+                    bgVal: randomRange(0, 360),
+                    isImportant: false,
+                    className: 'impClass'
+                }
+            }
+        })
+
+        app.mount('#app');
+
+        function randomRange(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+    </script>
+</body>
+
+</html>

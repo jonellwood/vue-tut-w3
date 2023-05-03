@@ -1,0 +1,12 @@
+{
+	"editor.formatOnPaste": true,
+	"editor.formatOnSave": true,
+	"editor.formatOnType": true,
+	"workbench.colorCustomizations": {
+		"titleBar.activeForeground": "#101820",
+		"titleBar.inactiveForeground": "#101820",
+		"titleBar.activeBackground": "#04aa6d",
+		"titleBar.inactiveBackground": "#04aa6d"
+	},
+	"liveServer.settings.port": 5501
+}
