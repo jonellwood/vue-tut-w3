@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-on</title>
+    <style>
+        #app {
+            border: dashed black 1px;
+            width: 900px;
+            padding: 20px;
+            display: inline-block;
+        }
+
+        img {
+            width: 20%;
+        }
+
+        div {
+            margin: 20px;
+        }
+
+        #app>button {
+            display: block;
+            margin: auto;
+        }
+
+        #lightDiv {
+            position: relative;
+            width: 150px;
+            height: 150px;
+        }
+
+        #lightDiv>img {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        #lightDiv>div {
+            position: absolute;
+            /* top: 10%; */
+            /* left: 10%; */
+            width: 70%;
+            height: 70%;
+            border-radius: 50%;
+            background-color: yellow;
+        }
+
+        .food-clicky {
+            width: 220px;
+            padding: 20px
+        }
+
+        .food-clicky>img {
+            float: right;
+            width: 55%
+        }
+
+        li:hover {
+            cursor: pointer;
+            background-color: rgb(224, 224, 224);
+        }
+
+        .food-clicky>ol {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .food-clicky li {
+            padding-left: 6px;
+            border-radius: 5px;
+            width: 70px;
+        }
+
+        .ss-img {
+            width: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <img src="img_moose.jpg">
+            <p>{{ "Moose count: " + count }}</p>
+            <button v-on:click="count++">Count moose</button>
+        </div>
+        <hr>
+        <div>
+            <p>There are lots of events we can use as triggers for running code, among the most common ones are:
+                'click', 'mouseover',
+                'mouseout', 'keydown' and 'input'.</p>
+            <p>If we want to run more complex code when an event occurs we can put the code in a Vue method and refer to
+                this method
+                from the HTML attribute, like this: </p>
+            <img src="vue-method.png" class="ss-img">
+        </div>
+        <hr>
+        <div>
+            <h3>Example: Light Switch</h3>
+            <p>The <code>v-on</code> directive is used on the button tag to listen to the 'click' event. When the
+                'click' event
+                occurs the
+                'lightOn' data property is toggled between 'true' and 'false', making the yellow div behind the
+                lightbulb
+                visible/hidden.</p>
+            <div id="lightDiv">
+                <div v-show="lightOn"></div>
+                <img src="img_lightBulb.svg">
+            </div>
+            <button v-on:click=" lightOn =! lightOn ">Switch Light</button>
+        </div>
+        <hr>
+        <div>
+            <h3>Count Input Events</h3>
+            <input type="text" v-on:input="inpCount++" placeholder="Start Writing...">
+            <p>{{ ' Input events occured: ' +inpCount }}</p>
+        </div>
+        <hr>
+        <div>
+            <h3>Change the background-color of a div whenever the mouse pointer moves over it</h3>
+            <div v-on:mousemove="colorVal=Math.floor(Math.random()*360)"
+                v-bind:style="{backgroundColor:'hsl('+colorVal+',80%,80%)'}">Trippy</div>
+            <p><span>Current backgroundColor is : hsl(<strong>{{ colorVal }}</strong>, 80%, 80%)</span></p>
+        </div>
+        <hr>
+        <div>
+            <h3>You can also use the <code>v-on</code> directive inside a <code>v-for</code> loop</h3>
+            <h4>Example: Show food images based on clicking the food name</h4>
+            <p><em>I can not believe how easy this is! </em></p>
+            <div class="food-clicky">
+                <img v-bind:src="imgUrl">
+                <ol>
+                    <li v-for="food in manyFoods" v-on:click="imgUrl = food.url">
+                        {{ food.name }}
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div>
+            <h3>The shorthand for <code>v-on</code> is simply <code>@</code></h3>
+            <img src="v-on-shorthand.png" class="ss-img">
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    count: 0,
+                    lightOn: false,
+                    inpCount: 0,
+                    colorVal: 50,
+                    imgUrl: 'img_pizza.svg',
+                    manyFoods: [
+                        { name: 'Burrito', url: 'img_burrito.svg' },
+                        { name: 'Salad', url: 'img_salad.svg' },
+                        { name: 'Cake', url: 'img_cake.svg' },
+                        { name: 'Soup', url: 'img_soup.svg' },
+                        { name: 'Pizza', url: 'img_pizza.svg' },
+                        { name: 'Rice', url: 'img_rice.svg' },
+                    ]
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+
+</html>
