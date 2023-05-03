@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <title>Vue Forms</title>
+    <style>
+        form {
+            border: dashed black 1px;
+            width: 600px;
+            padding: 20px;
+            font-size: larger;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            border-radius: 5px;
+            padding: 5px;
+            margin: 2px;
+            background-color: rgb(211, 254, 211);
+        }
+
+        .impClass {
+            background-color: rgb(255, 202, 202);
+            font-weight: bold;
+        }
+
+        #ulFound li {
+            text-decoration: line-through;
+            background-color: rgb(230, 230, 230);
+        }
+
+        .shop-list {
+            width: 300px;
+        }
+
+        /* start menu app css here */
+        .menu-app {
+            border: dashed black 1px;
+            display: inline-block;
+            padding: 0 20px;
+        }
+
+        .menu-app label,
+        .menu-app li {
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .menu-app input[type=radio] {
+            margin: 8px;
+        }
+
+        .menu-app label:hover {
+            cursor: pointer;
+            background-color: lightgray;
+        }
+
+        .menu-app ul {
+            list-style-type: none;
+        }
+
+        .menu-app li {
+            margin: 2px;
+            width: 17ch;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            background-color: rgb(211, 254, 211);
+        }
+
+        .menu-app .impClass {
+            background-color: rgb(255, 202, 202);
+        }
+
+        .menu-app #ulFound li {
+            text-decoration: line-through;
+            background-color: rgb(230, 230, 230);
+        }
+
+        .menu-app form img {
+            width: 50px;
+        }
+
+        .menu-app li img {
+            float: right;
+            height: 100%;
+        }
+
+        .menu-app h4 {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Shopping List example using Vue Forms</h3>
+    <div id="app">
+        <span>
+            <form v-on:submit.prevent="addItem">
+                <p>Whatchu Need?
+                    <input type="text" required placeholder="item name..." v-model="itemName">
+                </p>
+                <p>How Many?
+                    <input type="number" placeholder="number of items..." v-model="itemNumber">
+                </p>
+                <button type="submit">Add that Item</button>
+            </form>
+            <div>
+                <p>Shopping List</p>
+                <ul>
+                    <li v-for="item in shoppingList"> {{ item.name}} - get me {{ item.number}} </li>
+                </ul>
+            </div>
+            <p>The two-way data binding here is provided by the <code>v-model</code></p>
+            <ol>
+                <li><code>v-model</code> updates the Vue instance data when the HTML input changes</li>
+                <li><code>v-model</code> also update the HTML input when the Vue instance data changes</li>
+                <li><b>NOTE:</b> the <code>v-model</code> two-way binding could be achieved with a combonation of
+                    <code>v-bind:value</code> and <code>v-on:input</code>. But <code>v-model</code> is much easier to
+                    use.
+                </li>
+            </ol>
+        </span>
+        <hr>
+        <span>
+            <h3>The Dynamic Checkbox</h3>
+            <p>Let's add a checkbox to our list to mark if an item is important or not. We will need:</p>
+            <ol>
+                <li>a boolean value in the Vue instance data property called 'important'</li>
+                <li>a checkbox where the user can check if the item is important</li>
+                <li>a dynamic feedback text so that the user can see if the item is important</li>
+            </ol>
+            <p>We are also going to add a way for the users to make the items as found on the list.We will need to add:
+            </p>
+            <ol>
+                <li>the list items to react on click</li>
+                <li>to change the status of the clicked item to found, and use this visually to move the item away and
+                    strike through it will CSS baby!</li>
+                <li>We create one list with all items we need to find, and one list below with items found striked
+                    through. We can actually put all the items in the first list, and all the items in the second list,
+                    and just use <code>v-show</code> with the Vue data property 'found' to define whether to show the
+                    item in the first or second list.</li>
+            </ol>
+            <form v-on:submit.prevent="addItem">
+                <p>Whatchu Need?
+                    <input type="text" required placeholder="item name..." v-model="itemName">
+                </p>
+                <p>How Many?
+                    <input type="number" placeholder="number of items..." v-model="itemNumber">
+                </p>
+                <p>
+                    its portant?
+                    <label>
+                        <input type="checkbox" v-model="itemImportant">
+                        {{ itemImportant }}
+                    </label>
+                </p>
+
+                <button type="submit">Add that Item</button>
+            </form>
+            <div>
+                <p><strong>Shopping List:</strong></p>
+                <ul class="shop-list" id="ulTiFind">
+                    <li v-for="item in shoppingList" v-bind:class="{ impClass: item.important }"
+                        v-on:click="item.found=!item.found" v-show="!item.found">
+                        {{ item.name}} - get me {{ item.number}}
+                    </li>
+                </ul>
+                <ul class="shop-list" id="ulFound">
+                    <li v-for="item in shoppingList" v-bind:class="{ impClass: item.important }"
+                        v-on:click="item.found=!item.found" v-show="item.found">
+                        {{ item.name }}, I found {{ item.number }}
+                    </li>
+                </ul>
+            </div>
+        </span>
+        <hr>
+
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    itemType: '',
+                    itemName: '',
+                    itemUrl: '',
+                    itemNumber: null,
+                    important: false,
+                    shoppingList: [
+                        { name: 'Vegan Cheese', number: 1, important: true }
+                    ],
+                }
+            },
+            methods: {
+                addItem() {
+                    let item = {
+                        name: this.itemName,
+                        number: this.itemNumber,
+                        important: this.itemImportant
+                    }
+                    this.shoppingList.push(item)
+                    this.itemName = null
+                    this.itemNumber = null
+                    this.itemImportant = false
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+</body>
+
+</html>
