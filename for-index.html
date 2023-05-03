@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-for</title>
+    <style>
+        #app>div {
+            border: solid black 1px;
+            width: 80%;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        img {
+            width: 70px;
+            margin: 10px;
+        }
+
+        figure {
+            width: 80px;
+            padding: 10px;
+            margin: 10px;
+            background-color: cadetblue;
+            border-radius: 5px;
+        }
+
+        figcaption {
+            text-align: center;
+        }
+
+        div {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div id="app">
+            <h3>Example: 'v-for' to create li-tags</h3><br>
+            <p>In this example 'v-for' creates an 'li' tag with the food name for each food item in the Vue instance
+                array.
+            <ol>
+                <li v-for="x in manyFoods">{{ x }}</li>
+            </ol>
+            <hr>
+            <h3>Show images of food, based on array in the Vue instance</h3>
+            <img v-for="x in manyFoods" v-bind:src="'img_'+ x +'.svg'">
+            <hr>
+            <h3>Use the v-for directive to create images and text based on the myFoods array in the Vue instance. This
+                could also be used to create the alt tag I would think</h3>
+            <div>
+                <figure v-for="x in myManyFoods">
+                    <img v-bind:src="x.url">
+                    <figcaption>{{x.name}}</figcaption>
+                </figure>
+            </div>
+            <hr>
+            <h3>Show both the array element index number, and text from the objects in the 'manyFoods' array.</h3>
+            <p><em>To get the index number with v-for we need to give two comma separated words in parentheses: the
+                    first word will be the array element, and the second word will be the index of that array
+                    element.</em></p>
+            <p v-for="(x, index) in myManyFoods">
+                {{ index }}: "{{ x.name }}", url: "{{x.url}}" <br>
+            </p>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    manyFoods: [
+                        'burrito',
+                        'salad',
+                        'cake',
+                        'soup',
+                        'pizza',
+                        'rice'
+                    ],
+                    myManyFoods: [
+                        { name: 'Burrito', url: 'img_burrito.svg' },
+                        { name: 'Salad', url: 'img_salad.svg' },
+                        { name: 'Cake', url: 'img_cake.svg' },
+                        { name: 'Soup', url: 'img_soup.svg' },
+                        { name: 'Pizza', url: 'img_pizza.svg' },
+                        { name: 'Rice', url: 'img_rice.svg' },
+                    ]
+                }
+            }
+        })
+
+        app.mount('#app')
+
+    </script>
+
+</body>
+
+</html>
