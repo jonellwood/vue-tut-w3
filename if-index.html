@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-if</title>
+    <style>
+        #app {
+            border: dashed black 1px;
+            /* width: 130px; */
+            padding-left: 20px;
+            background-color: lightgreen;
+        }
+
+        #app div {
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-weight: bold;
+
+        }
+
+        img {
+            width: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <h3>Boolean based decision</h3>
+            <p v-if="typewritersInStock">In Stock!</p>
+            <p v-else>Not in stock ☹️</p>
+        </div>
+        <div>
+            <h3>Comparison operator based decision</h3>
+            <p v-if="typewriterCount > 0">
+                In Stock
+            </p>
+            <p v-else>Not in stock 😭</p>
+        </div>
+        <div>
+            <h3>This is a if, else-if, else based decision that renders the text based on the value of the stock count.
+                This is super easy and super powerful!
+            </h3>
+            <p v-if="typewriterCount>3">
+                {{ typewriterCount}} in stock
+            </p>
+            <p v-else-if="typewriterCount>0">
+                Only {{ typewriterCount }} left!
+            </p>
+            <p v-else>
+                Not in stock
+            </p>
+        </div>
+        <div>
+            <h3>If a certain text contains the word 'pizza', create a p tag with an appropriate message.The 'includes()'
+                method is a native JavaScript method that checks if a text contain certain words.</h3>
+            <div v-if="text.includes('pizza')">
+                <p>The text includes the word 'pizza'</p>
+                <img src="https://www.w3schools.com/vue/img_pizza.svg">
+            </div>
+            <p v-else>The word 'pizza' is not found in the text</p>
+        </div>
+        <div>
+            <h3>If a certain text contains the word 'pizza' or 'burrito' or none of these words, different images and
+                text will be created.</h3>
+            <div v-if="text.includes('pizza')">
+                <p>The text includes the word 'pizza'</p>
+                <img src="https://www.w3schools.com/vue/img_pizza.svg">
+
+            </div>
+            <div v-else-if="text.includes('burrito')">
+                <p>The text includes the word 'burrito', but not 'pizza'</p>
+                <img src="https://www.w3schools.com/vue/img_burrito.svg">
+
+            </div>
+            <p v-else>The words 'pizza' or 'burrito' are not found in the text</p>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    typewritersInStock: true,
+                    typewriterCount: 3,
+                    text: 'I like vegan tacos, vegan burritos, vegan pizza, and vegan burgers.'
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+
+</body>
+
+</html>
