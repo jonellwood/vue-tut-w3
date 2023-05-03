@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue methods</title>
+</head>
+<style>
+    #app {
+        border: black dashed 1px;
+        width: 700px;
+        padding: 0 20px 20px 20px;
+    }
+
+    #app>div {
+        width: 140px;
+        height: 60px;
+        background-color: lightgreen;
+        padding: 20px;
+        font-weight: bold;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    .click-text {
+        width: 160px;
+        height: 80px;
+        background-color: lightblue;
+        padding: 20px;
+    }
+
+    .mousePos {
+        width: 160px;
+        height: 80px;
+        background-color: lightcoral;
+        padding: 20px;
+    }
+
+    .notebook {
+        width: 300px;
+        padding: 20px;
+    }
+
+    .notebook>div {
+        width: 100%;
+        position: relative;
+        margin-top: 10px;
+        aspect-ratio: 1;
+        background-image: url("img_notebook.jpg");
+        background-size: 340%;
+        background-position: -345px 0;
+        overflow: hidden;
+    }
+
+    .notebook .span {
+        width: 40%;
+        font-weight: bold;
+        font-family: fantasy;
+        line-height: 1.2em;
+        transform-origin: 0 0;
+        rotate: 34deg;
+        position: absolute;
+        top: 137px;
+        left: 303px;
+    }
+
+    .notebook textarea {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .moose-count {
+        width: 100%;
+    }
+
+    button {
+        margin: 10px;
+        padding: 5px 10px;
+    }
+
+    code {
+        color: red;
+        /* background-color: black; */
+        /* padding: 1px; */
+        border-top: 1px solid blue;
+        border-bottom: 1px solid blue;
+    }
+
+    .multi-line-code {
+        border: none;
+    }
+
+    .all-together {
+        box-sizing: border-box;
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        width: 650px;
+    }
+
+    .all-together>div {
+        flex-basis: 200px;
+        margin: 5px;
+    }
+
+    .square-animal {
+        width: 100%;
+    }
+
+    .all-together>button {
+        margin: 5px;
+        padding: 3px 6px;
+    }
+</style>
+
+<body>
+    <h1>The Vue 'methods' property</h1>
+    <div>
+        <h3>There is another property (in addition to data) where we can store functions that belong to the Vue instance
+        </h3>
+        <code>
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        text: '',
+                        count: 0
+                    }
+                },
+                methods: {
+                    writeText() {
+                        this.text = 'Hello from a method!'
+                    },
+                }
+            })
+        </code>
+        <p>We need to write <code>this.</code> as a prefix to refer to a data property from inside a method</p>
+        <p>We can use the <code>v-on:click</code> on an element to write the code below</p>
+        <div id="app">
+            <span>
+                <p> click on the box below</p>
+                <p v-on:click="changeText" class="click-text">{{ text }}</p>
+                <button v-on:click="resetText">Reset</button>
+            </span>
+            <hr>
+            <span>
+                <h3>Example of using the object event with calling a Vue method</h3>
+                <p>Move the mouse over the box below</p>
+                <p>By adding <code>v-bind:style</code> to the element we can vary the background color at the same time
+                </p>
+                <div v-on:mousemove="mousePos" v-bind:style="{backgroundColor: 'hsl('+xPos+', 80%, 80%)'}"
+                    class="mousePos">
+                    <span>xPos: {{ xPos }} </span><br><span>yPos: {{ yPos }} </span>
+                </div>
+            </span>
+            <hr>
+            <span class="notebook">
+                <h3>Example using the <code>v-on</code> directive is used on the <code>textarea</code> tag to listen to
+                    the 'input' event which occurs whenever there is a change in the text inside the textarea element.
+                </h3>
+                <textarea v-on:input="writeText" placeholder="Share your secrets.."></textarea>
+                <div>
+                    <span class="span">{{ text }}</span>
+                </div>
+            </span>
+            <hr>
+            <span>
+                <h3>It's so easy to pass Arguments with methods</h3>
+                <img src="img_moose.jpg" class="moose-count">
+                <p>{{ "Moose count: " + count }} </p>
+                <button v-on:click="addMoose(1)">+1</button>
+                <button v-on:click="addMoose(5)">+5</button>
+                <button v-on:click="addMoose(-1)">-1</button>
+            </span>
+            <hr>
+            <span>
+                <h3>Passing both an Argument and The Event Object</h3>
+                <p>If we want to pass both the event obj and an another argument there is a reserved name
+                    <code>$event</code> we can use where the method is called.
+                </p>
+                <p>The method in the Vue instance would look like:</p>
+                <pre>
+                <code class="multi-line-code">methods: {
+                    addAnimal(e, number) {
+                        if(e.target.parentElement.id==="tigers"){
+                            this.tigers = this.tigers + number
+                        }
+                    }
+                </code>
+                </pre>
+                <h4>Here we see it is possible to send both the event object and the text as an argument with a method
+                </h4>
+                <p>Click on the tiger image: </p>
+                <img src="img_tiger_square.jpeg" id="tiger" v-on:click="tigersMethod($event, 'Sup')"
+                    class="moose-count">
+                <p>Here is the message sent with the method, and the id of the img tag</p>
+                <p id="green">"{{msgAndId }} "</p>
+            </span>
+            <hr>
+            <span class="all-together">
+                <h3>Example: Passing Arguments and Event Object with Methods</h3>
+                <p>In this example we are able to count tigers, moose and kangaroos, with different increments, all
+                    buttons refering to the same method. This is possible by passing the numbers counted as an argument,
+                    and by passing the event.</p>
+                <div id="tigers">
+                    <img src="img_tiger_square.jpeg" class="square-animal">
+                    <button v-on:click="addAnimal($event,1)">+1</button>
+                    <button v-on:click="addAnimal($event,5)">+5</button>
+                    <button v-on:click="addAnimal($event,-1)">-1</button>
+                </div>
+                <div id="moose">
+                    <img src="img_moose_square.jpeg" class="square-animal">
+                    <button v-on:click="addAnimal($event,1)">+1</button>
+                    <button v-on:click="addAnimal($event,5)">+5</button>
+                    <button v-on:click="addAnimal($event,-1)">-1</button>
+                </div>
+                <div id="kangaroos">
+                    <img src="img_kangaroo_square.jpeg" class="square-animal">
+                    <button v-on:click="addAnimal($event,1)">+1</button>
+                    <button v-on:click="addAnimal($event,5)">+5</button>
+                    <button v-on:click="addAnimal($event,-1)">-1</button>
+                </div>
+                <ul>
+                    <li>Tigers: {{ tigers }}</li>
+                    <li>Moose: {{ moose }}</li>
+                    <li>Kangaroos: {{ kangaroos }}</li>
+                </ul>
+            </span>
+        </div>
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script>
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        text: '',
+                        xPos: 0,
+                        yPos: 0,
+                        count: 0,
+                        msgAndId: '',
+                        tigers: 0,
+                        moose: 0,
+                        kangaroos: 0
+                    }
+                },
+                methods: {
+                    changeText() {
+                        this.text = 'Hello from a method'
+                    },
+                    resetText() {
+                        this.text = ''
+                    },
+                    mousePos(event) {
+                        this.xPos = event.offsetX
+                        this.yPos = event.offsetY
+                    },
+                    writeText(event) {
+                        this.text = event.target.value
+                    },
+                    addMoose(number) {
+                        this.count += number
+                        // this is the same as this.count=this.count+number
+                    },
+                    tigersMethod(e, msg) {
+                        this.msgAndId = msg + ', '
+                        this.msgAndId += e.target.id
+                    },
+                    addAnimal(e, number) {
+                        if (e.target.parentElement.id === "tigers") {
+                            this.tigers += number;
+                        }
+                        else if (e.target.parentElement.id === "moose") {
+                            this.moose += number;
+                        }
+                        else {
+                            this.kangaroos += number;
+                        }
+                    }
+                }
+            })
+            app.mount('#app')
+        </script>
+    </div>
+</body>
+
+</html>
