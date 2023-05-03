@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Event Modifiers</title>
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <style>
+        #app {
+            border-top: black solid 1px;
+            width: 950px;
+            padding: 0 20px 20px 20px;
+        }
+
+        #green {
+            background-color: lightgreen;
+        }
+
+        .click-change {
+            width: 160px;
+            padding: 20px;
+            cursor: default;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Example: Create Alert Only Once</h3>
+
+    <div id="app">
+        <span>
+            <p>The button below creates an alert in a pop-up box, but only on the first click:</p>
+            <button v-on:click.once="createAlert">Create Alert</button>
+        </span>
+        <hr>
+        <span>
+
+            <p><b>Note: </b>It is also possible to handle an event inside the method instead of using event modifiers,
+                but
+                event modifiers
+                make it a lot easier.</p>
+            <p>Event modifiers are used in different situations. We can use event modifiers when we listen to keyboard
+                events, mouse
+                click events, and we can even use event modifiers in combination with each other.</p>
+            <p>The event modifier<code>.once</code> can be used after both keyboard and mouse click events.</p>
+            <hr>
+            <h3>Keyboard Key Event Modifiers</h3>
+            <p>We have three different keyboard event types<code> keydown, keypress, </code> and <code>keyup</code>.</p>
+            <p>Enter your super secret passwords here</p>
+            <input type="text" v-on:keydown="getKey">
+            <p> {{ keyValue }} </p>
+            <button v-on:click="showKeys">Console Keys</button>
+        </span>
+        <hr>
+        <span>
+            <p>We can also choose to limit the event to happen only when a mouse click or a key press happens in
+                combination with
+                system modifier keys<code> .alt, .ctrl, .shift</code> or<code> .meta</code>. The system modifier
+                key<code> .meta </code> represents the Windows key on Windows computers, or command key on Apple
+                computers.</p>
+            <p>Try and guess the <b><em>s</em></b>ecret letter</p>
+            <textarea v-on:keyup.s="createWinner"></textarea>
+            <hr>
+            <p>We can also use modifiers simultaneously. Try again guess again using a modifier key + letter </p>
+            <p>I would try <code>Ctrl</code> + <code>w</code> first if I were you - just saying</p>
+            <textarea v-on:keydown.ctrl.w="createWinnerAgain"></textarea>
+        </span>
+        <hr>
+        <span>
+            <h3>Mouse Button Modifiers</h3>
+            <p>To react on a mouse click, we can write<code> v-on:click</code>, but to specify which mouse button that
+                was clicked, we can use <code>.left, .center</code> or <code> .right</code> modifiers.</p>
+            <p>Change the background color when a user right-clicks in the <code>&lt;div&#62;</code> element:</p>
+            <div v-on:click.right.ctrl.prevent="changeColor"
+                v-bind:style="{ backgroundColor:'hsl('+bgColor+',80%,80%)' }">
+                <p>Crtl+Right click here</p>
+            </div>
+            <p>We added the <code>Ctrl</code> and <code>prevent</code> modifiers to this event. The prevent stops the
+                menu from bring shown. (I am assuming it's <code>e.preventdefault()</code> under the hood</p>
+            <p>It would be possible to prevent the drop-down menu from appearing after right click by using
+                <code>event.preventDefault()</code> inside the method, but with the Vue <code>.prevent</code> modifier
+                the code becomes more readable and easier to maintain.
+            </p>
+            <p>You can add the same modifiers to left mouse clicks as well</p>
+        </span>
+        <hr>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        keysList = [];
+        const app = Vue.createApp({
+            data() {
+                return {
+                    keyValue: '',
+                    bgColor: 0
+                }
+            },
+            methods: {
+                createAlert() {
+                    alert("Alert created from button click")
+                },
+                getKey(e) {
+                    this.keyValue = e.key
+                    keysList.push(e.key);
+                    // console.log(e.key)
+                },
+                showKeys(keysList) {
+                    console.log(keysList.view.keysList);
+                },
+                createWinner() {
+                    alert("You guessed 's' - YOU WIN!!!")
+                },
+                createWinnerAgain() {
+                    alert("You pressed the 'w' and 'Ctrl' keys at the same time!!")
+                },
+                changeColor() {
+                    this.bgColor += 50;
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+    <script>
+        // function showKeys(keys) {
+        //     console.log(keys);
+        // }
+    </script>
+</body>
+
+</html>

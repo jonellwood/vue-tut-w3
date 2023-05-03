@@ -1,0 +1,11 @@
+code {
+	color: red;
+	/* background-color: black; */
+	/* padding: 1px; */
+	border-top: 1px solid blue;
+	border-bottom: 1px solid blue;
+}
+
+.multi-line-code {
+	border: none;
+}
