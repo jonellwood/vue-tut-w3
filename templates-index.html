@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <title>Templates</title>
+    <style>
+        #app {
+            display: inline-block;
+            padding: 10px;
+            font-size: x-large;
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Vue Templates</h1>
+    <span>
+        <p>A template in Vue is what we call the HTML part of our Vue application.</p>
+        <p>The <code> &lt;template&gt; </code>tag will later be used in <code> *.vue </code>files to structure our code
+            in a better
+            way.</p>
+        <p>It is possible to use template as a configuration option in the Vue instance, and put the HTML code inside.
+        </p>
+        <h4>An example where we use 'template' as a configuration option. This is a simple example where we have just
+            moved the HTML part into the configuration option 'template':</h4>
+        <p>The HTML content from inside the <code>&lt;div id="app"&gt;</code> is moved ot the configuration option
+            'template', encapsulated in backtick quotes <code>`...`</code> We can write many lines of code inside a
+            backtick quote.</p>
+        <p>We will use an empty div to place our template in <code> &lt;div id="app"&gt;&lt;/div&gt; </code> </p>
+        <p>Then we place what we want returned as a template configuration option of the Vue instance</p>
+
+        <div id="app"></div>
+
+    </span>
+    <hr>
+    <span>
+        <h3>Single File Components (SFCs)</h3>
+        <p>As you can see in the code example above, also the HTML part of our Vue application can be gathered inside
+            the Vue
+            instance, but this does not make it easier to get an overview in the HTML file.</p>
+        <p>To get a better overview, to make it easier to handle larger projects, and to get a better development
+            environment, we
+            will now switch to write our Vue code in SFCs, or *.vue files.</p>
+        <p>All *.vue files only consist of three parts:</p>
+        <ul>
+            <li><code> &lt;template&gt; </code> where the HTML content is.</li>
+
+            <li><code> &lt;script&gt; </code> for our Vue code.</li>
+
+            <li><code> &lt;style&gt; </code> where we write the CSS styling.</li>
+        </ul>
+        <p>Before we can use <code>*.vue</code> files in our project we need to do some set up.</p>
+    </span>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            template:
+                `<h1>{{ message }} </h1>
+            <p>This is a second line of HTML code, inside backticks</p>`,
+            data() {
+                return {
+                    message: "Hello World!"
+                }
+            }
+        })
+        app.mount('#app');
+    </script>
+</body>
+
+</html>
