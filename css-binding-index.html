@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <title>CSS Binding</title>
+</head>
+
+<style>
+    #app>div {
+        position: relative;
+        border: dashed black 1px;
+        width: 200px;
+        height: 100px;
+        background-image: url("img_kangaroo_square.jpeg");
+        background-size: cover;
+    }
+
+    #onTop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        z-index: 2;
+        color: white;
+    }
+
+    .selected-example {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        width: 80%;
+        border: dashed black 1px;
+    }
+
+    .selected-example>div {
+        display: block;
+        flex-basis: 80px;
+        aspect-ratio: 1;
+        margin: 5px;
+    }
+
+    .selected-example>div>img {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 3px;
+        border: solid white 4px;
+        border-radius: 5px;
+    }
+
+    .selected-example>img:hover {
+        cursor: pointer;
+    }
+
+    .selected-example .selClass {
+        border: solid brown 4px;
+        background-color: lightpink;
+    }
+
+    .impClass {
+        font-weight: bolder;
+    }
+
+    .yelClass {
+        background-color: rgb(255, 255, 136);
+    }
+
+    .merged-example>div {
+        border: dashed rebeccapurple 1px;
+        width: 200px;
+        margin: 20px;
+        padding: 20px;
+    }
+</style>
+
+<body>
+
+    <div id="app">
+        <h3>Example: In-line styling</h3>
+        <p>Using <code>v-bind:style</code> to change the opacity of the div</p>
+        <p>
+            <input type="range" min="0" max="1" step="0.1" v-model="opacityVal"> {{opacityVal}} (opacity value)
+        </p>
+        <div>
+            <div id="onTop" v-bind:style="{ backgroundColor: 'rgba(99,0,89,'+opacityVal+')' }">
+                Drag the range input to change opacity here.
+            </div>
+        </div>
+        <hr>
+        <span class="selected-example">
+            <h3>Example: Selecting images with <code>v-bind:class</code> to assign a class</h3><br>
+            <span>Click on an image to assign or remove the class "selClass".</span>
+            <div v-for="(img, index) in images">
+                <img v-bind:src="img.url" v-on:click="select(index)" v-bind:class="{selClass: img.sel}">
+            </div>
+        </span>
+        <hr>
+        <h3>Other Ways to Assign Classes and Style</h3>
+        <p>There are different aspects regarding the use of <code>v-bind:class</code> and <code>v-bind:style</code>:</p>
+        <ol>
+            <li>When CSS classes are assigned to an HTML tag with both <code>class=""</code> and
+                <code>v-bind:class=""</code>
+                <mark> Vue merges the classes.</mark>
+            </li>
+            <li>An object containing one or more classes is assigned with<code> v-bind:class="{}".</code> Inside the
+                object one or
+                more classes might be toggled on or off.</li>
+            <li>With in-line styling <code>v-bind:style</code> camelCase is preferred when defining a CSS property, but
+                'kebab-case' can also be used if it is written inside quotes.</li>
+            <li>CSS classes can be assigned with arrays / with array notation / syntax</li>
+        </ol>
+        <hr>
+        <span>
+            <h3>Vue merges <code>class</code> and <code>v-bind:class</code></h3>
+            <p>The 'impClass' class is set in the normal way with the class attribute, and the 'yelClass' class is set
+                with
+                <code>v-bind:class</code>. The result is that Vue merges the classes so that the div element belongs to
+                both classes.
+            </p>
+            <div class="merged-example">
+                <div class="impClass" v-bind:class="{ yelClass: isYellow }">This div belongs to both the 'ImpClass' and
+                    the 'yelClass'</div>
+                <img src="imp and yel class.png">
+            </div>
+        </span>
+        <br>
+        <span>
+            <h3>Assign more than one class with <code>v-bind:class</code></h3>
+            <p>When assigning an HTML element to a class with <code>c-bind:class="{}"</code>, we can simply use a comma
+                to separate the value of each class</p>
+            <code class="multi-line-code">
+                &lt;div b-bind:class="{yelClass: isYells, imClass: isImportant}"&gt;<br>
+                &emsp;This tag can belong to both the 'impClass' and 'yelClass' classes and each can be toggled with a boolean.<br>
+                &lt;/div&gt;<br>
+            </code>
+        </span>
+        <br>
+        <span>
+            <h3>Array Syntax with <code>v-bind:class</code></h3>
+            <p>Here, we set CSS classes 'impClass' and 'yelClass' with array syntax. The class 'impClass' depends on a
+                Vue property
+                <code>isImportant</code> and the class 'yelClass' is always attached to
+                the<code> &lt;div&gt; </code>element.
+            </p>
+            <code class="multi-line-code">
+                &lt;div v-bind:class="[{ impClass: isImportant }, 'yelClass' ]"&gt;<br>
+                &emsp;This div tag belongs to one or two classes depending on the isImportant property.<br>
+                &lt;/div&gt;<br>
+            </code>
+        </span>
+    </div>
+</body>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                opacityVal: 0.8,
+                images: [
+                    { url: 'img_burrito.svg', sel: false },
+                    { url: 'img_salad.svg', sel: false },
+                    { url: 'img_cake.svg', sel: false },
+                    { url: 'img_soup.svg', sel: false },
+                    { url: 'img_fish.svg', sel: false },
+                    { url: 'img_pizza.svg', sel: false },
+                    { url: 'img_rice.svg', sel: false }
+                ],
+                isYellow: true
+            }
+        },
+        methods: {
+            select(number) {
+                this.images[number].sel = !this.images[number].sel
+            }
+        }
+    })
+    app.mount('#app')
+</script>
+
+</html>
