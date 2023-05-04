@@ -31,3 +31,8 @@ li {
 ol li {
 	background-color: inherit;
 }
+.green-info {
+	padding-top: 20px;
+	background-color: #d9eee1;
+	padding-bottom: 20px;
+}

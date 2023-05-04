@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <title>Computed Properties</title>
+</head>
+
+<body>
+    <h1>Vue Computed Properties</h1>
+    <span>
+        <ul class="green-info">
+            <li><b>Computed properties</b> are like data properties, except they depend on other properties.</li>
+            <li><b>Computed properties</b> are written like methods, but they do not accept any input arguments.</li>
+            <li><b>Computed properties</b> are updated automatically when a dependency changes, while methods are called
+                on when something
+                happens, like with event handling for example.</li>
+            <li><b>Computed properties</b> are used when outputting something that depends on something else.</li>
+        </ul>
+        <h4>Computed properties are dynamic</h4>
+        <p>The big advantage with a computed property is that it is dynamic, meaning it changes depending on for example
+            the value
+            of one or more data properties.</p>
+        <p>Computed properties is a configuration option in the Vue instance</p>
+        <p>As with 'data' and 'method' computed properties also has a reserved name in the Vue instance:
+            '<b>computed</b>'</p>
+        <p>In the shopping list we used a True or False to ask the user if an item was important. Natural language of
+            'Yes' or 'No' would make the form more intuitive. </p>
+        <p><em>Computed property is a perfect tool to help with that</em></p>
+    </span>
+    <hr>
+    <span>
+        <h3>Computed Property 'yes; or 'no'</h3>
+        <p>In this example we give the user feedback 'yes' or 'no' when the checkbox is toggled. Feedback 'yes' or 'no'
+            fits
+            better with our everyday language than 'true' or 'false', and we use use a computed property in this example
+            to
+            achieve this.</p>
+        <div id="app">
+            <form>
+                <p>
+                    Important Item?
+                    <label>
+                        <input type="checkbox" v-model="chbxVal">
+                        {{ isImportant }}
+                    </label>
+                </p>
+            </form>
+        </div>
+    </span>
+    <hr>
+    <h3>Computed Properties vs. Methods</h3>
+    <p>Computed Properties and methods are both written as functions, but they are different</p>
+    <ol class="green-info">
+        <li><b>Methods</b> runs when called from HTML, but<b>computed properties</b> updates automatically when a
+            dependency change.</li>
+        <li><b>Computed properties</b> are used the same way we use data properties, but they are dynamic.</li>
+    </ol>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    chbxVal: false
+                }
+            },
+            computed: {
+                isImportant() {
+                    if (this.chbxVal) {
+                        return 'yes'
+                    }
+                    else {
+                        return 'no'
+                    }
+                }
+            }
+        })
+        app.mount('#app')
+    </script>
+
+</body>
+
+</html>
