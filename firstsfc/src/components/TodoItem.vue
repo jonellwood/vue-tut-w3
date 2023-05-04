@@ -8,7 +8,7 @@ export default {
   props: ['itemName']
 }
 </script>
-<style>
+<style scoped>
 .redBG {
   background-color: red;
 }
