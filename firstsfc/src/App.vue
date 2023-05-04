@@ -1,56 +1,34 @@
 <template>
-  <h1>Food</h1>
-  <button @click="removeItem">Remove Item</button>
-  <div id="wrapper">
-    <food-item
-      v-for="x in foods"
-      :key="x.name"
-      :food-name="x.name"
-      :food-desc="x.desc"
-      :is-favorite="x.favorite"
-      @toggle-Favorite="receiveEmit"
-    />
-  </div>
+  <h3>Things TO-DO</h3>
+  <p>
+    This example lets style attributes "fall through" from the <code>App.vue</code> into the
+    <code>&lt;li&gt;</code> components root element
+  </p>
+  <ul>
+    <todo-item v-for="x in items" :key="x" :item-name="x" style="background-color: lightblue" />
+  </ul>
+  <input placeholder="Add your TO-DO's here" v-model="newItem" @keydown.enter="addItem" />
+  <button @click="addItem">Add ➕</button>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      foods: [
-        { name: 'Apples', desc: 'Apples are a type of fruit that grow on trees.', favorite: true },
-        {
-          name: 'Pizza',
-          desc: 'Pizza has a bread base with tomato sauce, cheese, and toppings on top.',
-          favorite: false
-        },
-        { name: 'Rice', desc: 'Rice is a type of grain that people like to eat.', favorite: false },
-        { name: 'Fish', desc: 'Fish is an animal that lives in water.', favorite: true },
-        { name: 'Cake', desc: 'Cake is something sweet that tastes good.', favorite: false }
-      ]
+      newItem: '',
+      items: ['Spank Kids', 'Paint House', 'Rough up neighbor']
     }
   },
   methods: {
-    removeItem() {
-      this.foods.splice(1, 1)
-    },
-    receiveEmit(foodId) {
-      const foundFood = this.foods.find((food) => food.name === foodId)
-      foundFood.favorite = !foundFood.favorite
+    addItem() {
+      this.items.push(this.newItem)
+      this.netItem = ''
     }
   }
 }
 </script>
 <style>
-#wrapper {
-  display: flex;
-  flex-wrap: wrap;
-}
-#wrapper > div {
-  border: dashed 1px black;
-  flex-basis: 120px;
-  margin: 10px;
-  padding: 10px;
-  background-color: lightgreen;
+ul {
+  width: 150px;
 }
 </style>
