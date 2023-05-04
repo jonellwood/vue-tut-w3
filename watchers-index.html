@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <title>Vue Watchers</title>
+    <style>
+        #app {
+            border: dashed black 1px;
+            display: inline-block;
+            padding: 10px;
+        }
+
+        #app>p {
+            font-size: large;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .old-new>div {
+            width: 200px;
+            height: 50px;
+            border: solid black 1px;
+            background-color: lightgreen;
+        }
+
+        .valid {
+            color: green;
+        }
+
+        .invalid {
+            color: red;
+        }
+    </style>
+</head>
+
+
+<h1>Vue Watchers</h1>
+<span>
+    <ol class="green-info">
+        <li>A <b>watcher</b> is a method that watches a data property with the same name.</li>
+        <li>A <b>watcher</b> runs every time the data property value changes.</li>
+        <li>Use a <b>watcher</b> if a certain data property value requires an action</li>
+    </ol>
+</span>
+<span>
+    <h3>The Watcher Concept</h3>
+    <p>Watchers is a configuration option in the Vue instance (in addition to <em>'data', 'methods','computed'</em>)
+    </p>
+    <p>As with 'data', 'methods' and 'computed' watchers also has a reserved name in the Vue
+        instance:<b>'watch'</b>.</p>
+    <p>We <mark>never</mark> call a watcher method. It is only called automatically when the property value changes.
+    </p>
+    <p>The new property value is always available as an input argument to the watcher method, <em><b>and so is the
+                old value </b></em>.</p>
+</span>
+<hr>
+<span>
+    <p>An <code>&lt;input type="range"&gt;</code> element is used to change a value 'rangeVal'. A watcher is used to
+        prevent the user from choosing values between 20 and 60 that are considered illegal.<br>The watcher makes
+        20-60
+        impossible to choose.</p>
+    <div id="app">
+        <input type="range" min="0" max="100" step="1" v-model="rangeVal">
+        <p><code>{{ rangeVal }} </code></p>
+        <!-- </div> -->
+</span>
+<hr>
+<span>
+    <h3>A watcher with new and old values</h3>
+    <h4>Example</h4>
+    <p>We set up a click event on a <code>&lt;div&gt;</code> element to record the mouse pointer x-position ('xPos')
+        with a method called 'updatePos'. A watcher calculates the difference in pixels between the new and previous
+        position with the use of old and new input arguments to the watcher method</p>
+    <div class="old-new">
+        <div v-on:click="updatePos"></div>
+        <span><code>{{ xDiff }} </code></span>
+    </div>
+</span>
+<hr>
+<span>
+    <h3>We can also use new and old values to give feedback to the user the exact moment the input goes from being
+        invalid to
+        valid</h3>
+    <p><b>Example:</b> The value from <code>&lt;input&gt;</code> element is connected to a watcher. If the value
+        includes
+        a '@' it is considered a valid email address. The user gets feedback text to inform of the input is valid,
+        invalid, or if just got valid with the last keystroke.</p>
+    <label>
+        <p>Type a valid email address:</p>
+        <input type="email" v-model="inpAddress">
+    </label>
+    <p v-bind:class="myClass"><code class="no-class"> {{ feedbackText }} </code></p>
+</span>
+</div>
+<hr>
+<span>
+    <h3>Watchers vs. Methods</h3>
+    <p>Watchers and methods are both written as functions, but there are many differences:</p>
+    <ul class="green-info">
+        <li><b>Methods </b>are called from HTML.</li>
+        <li><b>Methods </b>are often called when an event happens.</li>
+        <li><b>Methods </b>automatically receives the event object as an input.</li>
+        <li>We can also send other values we choose as an input to a <b>method</b>.</li>
+        <li><b>Watchers</b> are only called when the watched data property value changes, and this happens
+            automatically.</li>
+        <li><b>Watchers</b> automatically receives the new and old value from the watched property.</li>
+        <li>We cannot choose to send any other values with a <b>watcher</b> as an input.</li>
+    </ul>
+    <hr>
+    <h3>Watchers vs. Computed Properties</h3>
+    <p>Watchers and computed properties are both written as functions.</p>
+    <p>Watchers and computed properties are both called automatically when a dependency changes, <mark>and never called
+            from HTML</mark>.</p>
+    <p>Here are some differences between computed properties and watchers:</p>
+    <ul class="green-info">
+        <li><b>Watchers</b> only depend on one property, the property they are set up to watch.</li>
+        <li><b>Computed properties</b> can depend on many properties.</li>
+        <li><b>Computed properties</b> are used like data properties, except they are dynamic.</li>
+        <li><b>Watchers</b> are not referred to from HTML.</li>
+    </ul>
+</span>
+<hr>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                rangeVal: 70,
+                xPos: 0,
+                xDiff: 0,
+                inpAddress: '',
+                feedbackText: '',
+                myClass: 'invalid'
+            }
+        },
+        watch: {
+            rangeVal(val) {
+                if (val > 20 && val < 60) {
+                    if (val < 40) {
+                        this.rangeVal = 20;
+                    }
+                    else {
+                        this.rangeVal = 60;
+                    }
+                }
+            },
+            xPos(newVal, oldVal) {
+                this.xDiff = newVal - oldVal
+            },
+            inpAddress(newVal, oldVal) {
+                if (!newVal.includes('@')) {
+                    this.feedbackText = 'The email address is NOT valid';
+                    this.myClass = 'invalid';
+                }
+                else if (!oldVal.includes('@') && newVal.includes('@')) {
+                    this.feedbackText = '🎉 Perfecto! You fixed it! 🎉 '
+                    this.myClass = 'valid';
+                }
+                else {
+                    this.feedbackText = 'The email address is valid 🙌';
+                }
+            }
+        },
+        methods: {
+            updatePos(e) {
+                this.xPos = e.offsetX
+            }
+        }
+    })
+    app.mount('#app')
+
+</script>
+
+
+</body>
+
+</html>
