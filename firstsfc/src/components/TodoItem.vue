@@ -15,4 +15,7 @@ export default {
 .greenBG {
   background-color: green;
 }
+.blueBG {
+  background-color: lightblue;
+}
 </style>
