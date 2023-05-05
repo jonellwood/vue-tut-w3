@@ -1,10 +1,17 @@
 <template>
-  <h2>2023 Season Teams</h2>
-  <div v-for="x in teams" :key="x.displayName">
-    <p class="pName">{{ x.displayName }}</p>
+  <h1>Teams</h1>
+  <div class="card-holder">
+    <div
+      v-for="t in teams"
+      :key="t.team.displayName"
+      class="tCard-holder"
+      v-bind:style="{ backgroundColor: '#' + t.team.color }"
+    >
+      <p class="tCard">{{ t.team.displayName }}</p>
+      <!-- <p>{{ '#' + t.team.color }}</p> -->
+    </div>
   </div>
 </template>
-
 <script>
 export default {
   inject: ['teams']
@@ -19,11 +26,33 @@ div {
   background-color: cadetblue;
   border-radius: 10px;
 }
-.pName {
-  text-align: center;
-  margin: 10px 0 0 0;
-}
+
 img {
   width: 100%;
+}
+.card-holder {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto;
+  gap: 10px;
+}
+.tCard-holder {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+  border-radius: 50%;
+  display: flex;
+}
+.tCard {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  padding: 3px;
+  color: whitesmoke;
+}
+.tCard:hover {
+  color: white;
+  cursor: pointer;
 }
 </style>
