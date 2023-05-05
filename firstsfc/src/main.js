@@ -10,12 +10,14 @@ import App from './App.vue'
 // import CompThree from './components/CompThree.vue'
 import TeamsComp from './components/TeamsComp.vue'
 import SuperBowlComp from './components/SuperBowlComp.vue'
+import CurrentWeek from './components/CurrentWeek.vue'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/teams', component: TeamsComp },
-    { path: '/superbowl', component: SuperBowlComp }
+    { path: '/superbowl', component: SuperBowlComp },
+    { path: '/currentweek', component: CurrentWeek }
   ]
 })
 
