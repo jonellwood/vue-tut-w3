@@ -1,53 +1,28 @@
 <template>
-  <h1>Dynamic Components</h1>
-  <p>App.vue switches between which component to show</p>
+  <h1>Teleport</h1>
   <p>
-    we can use the 'max' attribute to <code>&lt;KeepAlive&gt;</code> to limie the number of
-    components the browser needs to remember
+    With &lt;teleport to="body"&gt; we move the red &lt;div&gt; from inside the component to the
+    root of the body tag.
   </p>
-  <!-- <button @click="toggleValue = !toggleValue">Swap People</button> -->
-  <button @click="compNbr++">Next Comp</button>
-  <KeepAlive>
-    <component :is="activeComp"></component>
-  </KeepAlive>
+  <comp-one></comp-one>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      compNbr: 1
-    }
-  },
-  watch: {
-    compNbr(val) {
-      if (val > 3) {
-        this.compNbr = 1
-      }
-    }
-  },
-  computed: {
-    activeComp() {
-      if (this.compNbr === 1) {
-        return 'comp-one'
-      } else if (this.compNbr === 2) {
-        return 'comp-two'
-      } else {
-        return 'comp-three'
-      }
-    }
-  }
-}
-</script>
+<script></script>
 
 <style>
 #app {
   width: 350px;
   margin: 10px;
 }
+
 #app > div {
   border: solid black 2px;
   padding: 10px;
   margin-top: 10px;
+  background-color: rgb(186, 228, 255);
+}
+
+h2 {
+  text-decoration: underline;
 }
 </style>
