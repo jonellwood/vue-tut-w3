@@ -13,7 +13,7 @@
   <slot-comp></slot-comp>
   <footer>
     <slot-comp>
-      <h3>bróðir dev ops - 2023</h3>
+      <h3>bróðir dev ops - 2023 - Patent Pending</h3>
     </slot-comp>
   </footer>
 </template>
