@@ -1,7 +1,7 @@
 <template>
   <div class="greenBG">⚽️</div>
   <li v-bind="$attrs">{{ itemName }}</li>
-  <div class="redBG">⚽️</div>
+  <div class="redBG">💥</div>
 </template>
 <script>
 export default {
